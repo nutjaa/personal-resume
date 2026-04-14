@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@layer base {
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Georgia", "Times New Roman", serif;
+    background-color: #e5e7eb;
+    color: #1f2937;
+  }
+}
+
+@media print {
+  body { background-color: #fff; }
+  .no-print { display: none !important; }
+  .resume-page {
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+}
