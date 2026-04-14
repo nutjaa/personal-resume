@@ -56,7 +56,7 @@ const resume: ResumeData = {
     location: "Bangkok, Thailand",
     linkedin: "https://www.linkedin.com/in/nut-chanyong-57592019/",
     github: "https://github.com/nutjaa",
-    website: "https://nutchanyong.com",
+    website: "https://nutjaa.github.io/personal-resume/",
   },
   summary:
     "Software engineer with 17+ years of experience delivering full-stack web and mobile applications across a wide range of industries. " +
