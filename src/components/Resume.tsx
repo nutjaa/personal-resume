@@ -226,7 +226,7 @@ export default function Resume({ data }: Props) {
   return (
     <div
       id="resume"
-      className="resume-page bg-white shadow-xl mx-auto w-full md:w-[210mm] min-h-screen md:min-h-[297mm] flex flex-col md:flex-row print:w-[210mm] print:min-h-[297mm] print:flex-row"
+      className="resume-page bg-white shadow-xl mx-auto w-full md:w-[210mm] min-h-screen md:min-h-[297mm] flex flex-col-reverse md:flex-row print:w-[210mm] print:min-h-[297mm] print:flex-row"
       style={{ fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif" }}
     >
       <Sidebar data={data} />

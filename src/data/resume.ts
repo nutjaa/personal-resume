@@ -224,7 +224,7 @@ const resume: ResumeData = {
     },
     {
       category: "Methodology",
-      items: ["Agile / Scrum", "AI PDLC"],
+      items: ["Agile / Scrum", "AI PDLC", "Team Lead (2–5 devs)"],
     },
   ],
   projects: [
