@@ -22,7 +22,7 @@ function Sidebar({ data }: Props) {
       <div className="flex justify-center">
         <div className="w-24 h-24 rounded-full ring-4 ring-slate-600 overflow-hidden shrink-0">
           <img
-            src="/profile.jpg"
+            src={`${import.meta.env.BASE_URL}profile.jpg`}
             alt={data.name}
             className="w-full h-full object-cover"
           />
