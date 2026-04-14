@@ -11,7 +11,7 @@ function App() {
     if (!element) return;
 
     // html2pdf bundles an old html2canvas that doesn't support oklch (Tailwind v4 default).
-    // We inject hex overrides in the cloned document so html2canvas never sees oklch.
+    // Inject hex color overrides in the cloned document so html2canvas never sees oklch.
     const tailwindHexOverrides = `
       :root, * {
         --color-white: #ffffff;
@@ -26,6 +26,7 @@ function App() {
         --color-slate-700: #334155;
         --color-slate-800: #1e293b;
         --color-slate-900: #0f172a;
+        --color-gray-50:  #f9fafb;
         --color-gray-100: #f3f4f6;
         --color-gray-200: #e5e7eb;
         --color-gray-300: #d1d5db;
@@ -35,6 +36,15 @@ function App() {
         --color-gray-700: #374151;
         --color-gray-800: #1f2937;
         --color-gray-900: #111827;
+        --color-amber-50:  #fffbeb;
+        --color-amber-100: #fef3c7;
+        --color-amber-200: #fde68a;
+        --color-amber-600: #d97706;
+        --color-amber-700: #b45309;
+        --color-amber-800: #92400e;
+        --color-blue-600: #2563eb;
+        --color-green-700: #15803d;
+        --color-red-400: #f87171;
       }
     `;
 
@@ -47,9 +57,25 @@ function App() {
         useCORS: true,
         logging: false,
         onclone: (_: Document, el: HTMLElement) => {
-          const style = el.ownerDocument.createElement("style");
+          const doc = el.ownerDocument;
+
+          // Step 1: Strip oklch() from all <style> tags in the clone —
+          // html2canvas parses raw stylesheet text and crashes on oklch *before*
+          // CSS cascade applies, so we must sanitize the source directly.
+          doc.querySelectorAll("style").forEach((styleEl) => {
+            if (styleEl.textContent) {
+              styleEl.textContent = styleEl.textContent.replace(
+                /oklch\([^)]*\)/g,
+                "transparent"
+              );
+            }
+          });
+
+          // Step 2: Inject hex overrides so all Tailwind color variables resolve
+          // correctly (replacing the "transparent" placeholders from step 1).
+          const style = doc.createElement("style");
           style.textContent = tailwindHexOverrides;
-          el.ownerDocument.head.appendChild(style);
+          doc.head.appendChild(style);
         },
       },
       jsPDF: {
