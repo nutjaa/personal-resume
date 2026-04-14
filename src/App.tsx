@@ -6,12 +6,15 @@ import resumeData from "./data/resume";
 function App() {
   const resumeRef = useRef<HTMLDivElement>(null);
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     const element = document.getElementById("resume");
     if (!element) return;
 
-    // html2pdf bundles an old html2canvas that doesn't support oklch (Tailwind v4 default).
-    // Inject hex color overrides in the cloned document so html2canvas never sees oklch.
+    // html2pdf bundles an old html2canvas that doesn't support oklch (Tailwind v4).
+    // In dev: Tailwind styles are in <style> tags.
+    // In production: Tailwind is bundled into an external .css file via <link>.
+    // We must handle BOTH cases.
+
     const tailwindHexOverrides = `
       :root, * {
         --color-white: #ffffff;
@@ -48,6 +51,23 @@ function App() {
       }
     `;
 
+    // Pre-fetch all external stylesheets and strip oklch() from them.
+    // We do this BEFORE calling html2pdf so we can await the fetches.
+    const linkEls = Array.from(
+      document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')
+    );
+    const cleanedSheets = await Promise.all(
+      linkEls.map(async (link) => {
+        try {
+          const res = await fetch(link.href);
+          const text = await res.text();
+          return text.replace(/oklch\([^)]*\)/g, "transparent");
+        } catch {
+          return "";
+        }
+      })
+    );
+
     const opt = {
       margin: 0,
       filename: `${resumeData.name.replace(/\s+/g, "_")}_Resume.pdf`,
@@ -59,9 +79,18 @@ function App() {
         onclone: (_: Document, el: HTMLElement) => {
           const doc = el.ownerDocument;
 
-          // Step 1: Strip oklch() from all <style> tags in the clone —
-          // html2canvas parses raw stylesheet text and crashes on oklch *before*
-          // CSS cascade applies, so we must sanitize the source directly.
+          // Replace external <link> stylesheets with inlined, oklch-free versions
+          doc
+            .querySelectorAll('link[rel="stylesheet"]')
+            .forEach((l) => l.remove());
+          cleanedSheets.forEach((css) => {
+            if (!css) return;
+            const s = doc.createElement("style");
+            s.textContent = css;
+            doc.head.appendChild(s);
+          });
+
+          // Also strip oklch from any inline <style> tags (present in dev mode)
           doc.querySelectorAll("style").forEach((styleEl) => {
             if (styleEl.textContent) {
               styleEl.textContent = styleEl.textContent.replace(
@@ -71,11 +100,10 @@ function App() {
             }
           });
 
-          // Step 2: Inject hex overrides so all Tailwind color variables resolve
-          // correctly (replacing the "transparent" placeholders from step 1).
-          const style = doc.createElement("style");
-          style.textContent = tailwindHexOverrides;
-          doc.head.appendChild(style);
+          // Finally inject hex overrides to restore correct Tailwind colors
+          const overrides = doc.createElement("style");
+          overrides.textContent = tailwindHexOverrides;
+          doc.head.appendChild(overrides);
         },
       },
       jsPDF: {
