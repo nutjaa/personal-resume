@@ -65,6 +65,40 @@ const resume: ResumeData = {
     "and focused on building intelligent products that create real user value.",
   experience: [
     {
+      role: "Tech Lead",
+      company: "PaloIT (Flexischools)",
+      period: "Jun 2026 – Jan 2027",
+      location: "Bangkok, Thailand",
+      bullets: [
+        "Co-delivered the new Flexischools school uniform shop, an e-commerce platform for school uniforms.",
+        "Scope covered the e-commerce storefront, parent app, POS, admin panel and reporting.",
+        "Applied the Agentic Development Lifecycle (ADLC) across the build to structure AI-assisted delivery.",
+      ],
+    },
+    {
+      role: "Teach Lead",
+      company: "PaloIT (Cebu Pacific)",
+      period: "Jun 2026",
+      location: "Bangkok, Thailand",
+      bullets: [
+        "Supported the GitHub migration pre-sales engagement for Cebu Pacific.",
+        "Delivered a proof of concept for migrating repositories and pipelines from Azure DevOps (ADO) to GitHub.",
+        "Built an AI-powered QA test case generation workflow to speed up test design.",
+        "Developed a data platform pipeline as part of the engagement.",
+      ],
+    },
+    {
+      role: "Teach Lead",
+      company: "PaloIT (dMRV)",
+      period: "Mar 2026 – May 2026",
+      location: "Bangkok, Thailand",
+      bullets: [
+        "Tech lead on a digital Measurement, Reporting and Verification (dMRV) project supporting carbon and climate initiatives in Thailand.",
+        "Introduced Architecture Decision Records (ADR) so the team captured and reviewed key technical decisions with clear rationale.",
+        "Introduced and coached the team on the Agentic Development Lifecycle (ADLC) to structure AI-assisted delivery.",
+      ],
+    },
+    {
       role: "Teach Lead",
       company: "PaloIT (LMWN)",
       period: "Jan 2026 – Mar 2026",
