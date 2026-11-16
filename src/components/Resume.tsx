@@ -60,7 +60,7 @@ function Sidebar({ data }: Props) {
             {group.items.map((item) => (
               <span
                 key={item}
-                className="px-2.5 py-1 rounded bg-slate-700 text-slate-200 text-xs leading-none"
+                className="px-2.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs leading-normal"
               >
                 {item}
               </span>
@@ -184,7 +184,7 @@ function MainContent({ data }: Props) {
                   {proj.tech.map((t) => (
                     <span
                       key={t}
-                      className="text-xs px-2.5 py-1 rounded bg-slate-100 text-slate-600 border border-slate-200 leading-none"
+                      className="text-xs px-2.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 leading-normal"
                     >
                       {t}
                     </span>

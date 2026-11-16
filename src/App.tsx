@@ -106,6 +106,7 @@ function App() {
           doc.head.appendChild(overrides);
         },
       },
+      pagebreak: { mode: ["css", "legacy"], avoid: ["li", "h2"] },
       jsPDF: {
         unit: "mm",
         format: "a4",
